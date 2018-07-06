@@ -17,6 +17,7 @@
   "devDependencies": {
     "@types/jasmine": "^2.5.53",
     "@types/lodash": "^4.14.70",
+    "@types/ramda": "^0.25.34",
     "awesome-typescript-loader": "^3.2.1",
     "cross-env": "^5.0.1",
     "css-loader": "^0.28.4",
@@ -48,6 +49,7 @@
     "@types/jquery": "^3.3.4",
     "jquery": "^3.3.1",
     "lodash": "^4.17.4",
+    "ramda": "^0.25.0",
     "rxjs": "^6.2.1",
     "todomvc-app-css": "^2.1.2"
   }
