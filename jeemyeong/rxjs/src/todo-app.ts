@@ -23,7 +23,7 @@ export const todoapp = R.pipe<JQuery, JQuery>(R.tap($todoapp => $todoapp.each(()
         (elem) => elem.value,
         todoTemplete,
         $,
-        (to: JQuery) => (elem: JQuery) => elem.appendTo(to));
+        (elem: JQuery) => elem.appendTo($todoapp.find('ul.todo-list')));
     const $filteredTodosByChecked = (checked: boolean) => $todoapp.find('ul.todo-list').find('li').filter(
         (_, todoElem) => checked ? $(todoElem).hasClass('completed') : !$(todoElem).hasClass('completed'));
     const toggleCheck = ($elem: JQuery) => $elem.find('input.toggle').each((_, elem) => {
