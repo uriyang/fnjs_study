@@ -61,8 +61,6 @@ function _curry(fn) {
 function _go(arg) {
   var fns = _rest(arguments);
   return _pipe.apply(null, fns)(arg); // apply https://blog.weirdx.io/post/3214
-  // ES6에서는 객체 자체를 iterator로 생성하는 방식으로 처리
-  log('1__', [1, 2, 3], document.querySelectorAll("body"), { 1: 'aa', 2: 'bb', 3: 'cc' })
 }
 
 // pipe
@@ -75,6 +73,8 @@ function _pipe() {
   }
 }
 
+// ES6에서는 객체 자체를 iterator로 생성하는 방식으로 처리
+log('1__', [1, 2, 3], document.querySelectorAll("body"), { 1: 'aa', 2: 'bb', 3: 'cc' })
 // es6 버전으로 변형 시킬 예정
 // JS의 7가지 내장 타입
 // https://github.com/Functional-JavaScript/FunctionalES/blob/master/articles/ES6%2C%20%ED%95%A8%EC%88%98%ED%98%95%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D%2C%20%EB%B9%84%EB%8F%99%EA%B8%B0%2C%20%EB%8F%99%EC%8B%9C%EC%84%B1%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D/1.%20%ED%83%80%EC%9E%85%EA%B3%BC%20%EA%B0%92.md
@@ -119,12 +119,14 @@ log('8__', typeof { 1: 'aa', 2: 'bb', a: 'cc', b: 'dd' } == 'object')
 
 
 // 원시값임에도 불구하고 객체와 같이 참조하는 메모리의 주소를 가지고 비교
+// new 연산자를 이용하면 오류...
 log('9__', Symbol('a') === Symbol('a'));
 // https://blog.perfectacle.com/2017/04/16/es6-symbol/
 // 정확하게 언제 쓰는지는..????
 
-// symbol iterator
+// symbol iterator - 반복 요소를 끊어서 실행할 수 있다. (함수로도 가능)
 // https://gist.github.com/qodot/ecf8d90ce291196817f8cf6117036997
+// https://blog.perfectacle.com/2017/04/22/es6-iterator/
 /*
 위 타입은 다시 크게 두 가지로 나눌 수 있습니다. 객체(object)와 객체가 아닌 것입니다. 위 7가지 타입에서 객체를 제외한 모든 값은 원시 값이며, 원시 값의 경우 인자로 전달하거나 할당할 때 항상 값 복사가 이루어지고, 객체의 경우는 항상 레퍼런스 사본을 만듭니다.
 */
