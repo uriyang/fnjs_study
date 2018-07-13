@@ -23,7 +23,7 @@ export default class Store {
      * @returns {ItemList} Current array of todos
      */
     this.getLocalStorage = () => {
-      return liveTodos || JSON.parse(localStorage.getItem(name) || '[]');
+      return R.or(liveTodos, JSON.parse(R.or(localStorage.getItem(name), '[]')));
     };
 
     /**

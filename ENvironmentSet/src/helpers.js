@@ -4,9 +4,7 @@
  * @param {string} selector Selector to query
  * @param {Element} [scope] Optional scope element for the selector
  */
-export function qs(selector, scope) {
-  return (scope || document).querySelector(selector);
-}
+export const qs = (selector, scope) => R.or(scope, document).querySelector(selector);
 
 /**
  * addEventListener wrapper
@@ -17,7 +15,7 @@ export function qs(selector, scope) {
  * @param {boolean} [capture] Capture the event
  */
 export function $on(target, type, callback, capture) {
-  target.addEventListener(type, callback, !!capture);
+  target.addEventListener(type, callback, Boolean(capture));
 }
 
 /**
