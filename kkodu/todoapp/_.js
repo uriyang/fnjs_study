@@ -75,3 +75,7 @@ function _is_object(obj) {
 function _keys(obj) {
   return _is_object(obj) ? Object.keys(obj) : [];
 }
+
+function _use_method(obj, method, arg) {
+  return _get(method)(obj) ? obj[method](arg) : undefined;
+}

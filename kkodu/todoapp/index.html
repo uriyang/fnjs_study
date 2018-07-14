@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Todo - Functional JS</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" 
+    integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+  <link rel="stylesheet" href="./todo.css">
+</head>
+<body>
+<div id="app">
+  <div class="header">
+    <h1 class="title">TODOLIST</h1>
+    <div class="form-group">
+      <input type="text" class="todo-input">
+      <button type="button" class="todo-add">&#x02935;</button>
+    </div>
+  </div>
+  <div class="section">
+    <div class="container">
+      <h2 class="subtitle">Todo</h2>
+      <ul class="todo-list"></ul>
+      <h2 class="subtitle">Complete</h2>
+      <ul class="complete-list"></ul>
+    </div>
+  </div>
+  <div class="modal">
+    <div class="modal-wrapper">
+      <div class="modal-panel">
+        <input type="text" class="modal-input">
+        <button type="button" class="modal-cancel">cancel</button>
+        <button type="button" class="modal-update">update</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="./_.js"></script>
+<script src="./todo.js"></script>
+</body>
+</html>

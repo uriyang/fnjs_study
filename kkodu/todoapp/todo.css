@@ -1,0 +1,162 @@
+* { 
+  margin: 0; 
+  padding :0; 
+  box-sizing: border-box; 
+}
+html, body { height: 100%; }
+a { text-decoration: none; }
+li { list-style: none; }
+
+.header {
+  margin-bottom: 50px;
+  padding: 0 15px;
+  width: 100%;
+}
+.title {
+  margin-bottom: 30px;
+  padding-top: 50px;
+  font-size: 2.5rem;
+  text-align: center;
+}
+.form-group {
+  margin: 0 auto;
+  width: 506px;
+  overflow: hidden;
+}
+.todo-input {
+  display: block;
+  padding: 15px;
+  width: 450px;
+  border: 2px solid darkseagreen;
+  font-size: 1.2rem;
+  font-weight: 500;
+  float: left;
+}
+.todo-add {
+  display: block;
+  width: 56px;
+  height: 56px;
+  border: 0;
+  background-color: darkseagreen;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: bold;
+  cursor: pointer;
+  float: left;
+}
+
+.section {
+  padding-top: 50px;
+  min-height: 500px;
+}
+.subtitle {
+  margin: 0 auto 15px;
+  width: 562px;
+  font-size: 2rem;
+}
+.todo-list {
+  margin: 0 auto 40px;
+  width: 562px;
+}
+.complete-list {
+  margin: 0 auto;
+  width: 562px;
+}
+.todo-item {
+  margin-bottom: 5px;
+  width: 100%;
+  height: 56px;
+  overflow: hidden;
+}
+.todo-message {
+  display: block;
+  padding: 12px 15px;
+  width: 100%;
+  max-width: 450px;
+  height: 100%;
+  border: 2px solid darkseagreen;
+  font-size: 1.1rem;
+  font-weight: 500;
+  float: left;
+  cursor: pointer;
+}
+.todo-update {
+  display: block;
+  width: 56px;
+  height: 100%;
+  border: 0;
+  background-color: darkseagreen;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  float: left;
+  cursor: pointer;
+}
+.todo-delete {
+  display: block;
+  width: 56px;
+  height: 100%;
+  border: 0;
+  background-color: orange;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  float: left;
+  cursor: pointer;
+}
+.todo-complete {
+  text-decoration: line-through;
+}
+
+.modal {
+  display: table;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+}
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-panel {
+  margin: 0 auto;
+  padding: 30px 20px;
+  width: 40%;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px #A7A7A7;
+  overflow: hidden;
+}
+.modal-input {
+  display: block;
+  margin-bottom: 15px;
+  padding: 10px;
+  width: 100%;
+  height: 45px;
+  font-size: 1.2rem;
+}
+.modal-update {
+  display: block;
+  margin-right: 10px;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  border: 0;
+  background-color: darkseagreen;
+  color: #fff;
+  float: right;
+}
+.modal-cancel {
+  display: block;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  border: 0;
+  background-color: orange;
+  color: #fff;
+  float: right;
+}
