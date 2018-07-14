@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "prepublish": "npm run compile",
-    "compile": "webpack src/app.js"
+    "compile": "webpack src/app.js dist/main.js"
   },
   "dependencies": {
     "ramda": "^0.25.0",
