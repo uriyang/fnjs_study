@@ -13,58 +13,39 @@ var addButton = document.getElementsByTagName("button")[0];//first button
 var incompleteTaskHolder = document.getElementById("incomplete-tasks");//ul of #incomplete-tasks
 var completedTasksHolder = document.getElementById("completed-tasks");//completed-tasks
 
-
-//New task list item
 var createNewTaskElement = function (taskString) {
+    const li = $.createElement('li');
+    const label = $.createElement('label');
+    const btn1 = $.createElement('button');
+    const btn2 = $.createElement('button');
+    const input1 = $.createElement('input');
+    const input2 = $.createElement('input');
 
-    var listItem = document.createElement("li");
+    $.attr(label, 'innerText', taskString);
+    $.attr(input1, 'type', 'checkbox');
+    $.attr(input2, 'type', 'text');
 
-    //input (checkbox)
-    var checkBox = document.createElement("input");//checkbx
-    //label
-    var label = document.createElement("label");//label
-    //input (text)
-    var editInput = document.createElement("input");//text
-    //button.edit
-    var editButton = document.createElement("button");//edit button
+    $.attr(btn1, 'classList', 'edit');
+    $.attr(btn1, 'innerText', 'Edit');
 
-    //button.delete
-    var deleteButton = document.createElement("button");//delete button
-
-    label.innerText = taskString;
-
-    //Each elements, needs appending
-    checkBox.type = "checkbox";
-    editInput.type = "text";
-
-    editButton.innerText = "Edit";//innerText encodes special characters, HTML does not.
-    editButton.className = "edit";
-    deleteButton.innerText = "Delete";
-    deleteButton.className = "delete";
-
-
-    //and appending.
-    listItem.appendChild(checkBox);
-    listItem.appendChild(label);
-    listItem.appendChild(editInput);
-    listItem.appendChild(editButton);
-    listItem.appendChild(deleteButton);
-    return listItem;
+    $.attr(btn2, 'classList', 'delete');
+    $.attr(btn2, 'innerText', 'Delete');
+    $.append(li, [input1, label, input2, btn1, btn2]);
+    return li;
 }
 
 
 var addTask = function () {
     console.log("Add Task...");
-    //Create a new list item with the text from the #new-task:
+    // 새로운 TODO 생성
     var listItem = createNewTaskElement(taskInput.value);
 
-    //Append listItem to incompleteTaskHolder
-    incompleteTaskHolder.appendChild(listItem);
+    // 완료하지 않은 항목에 추가
+    $.append(incompleteTaskHolder, listItem);
     bindTaskEvents(listItem, taskCompleted);
 
     taskInput.value = "";
-
-}
+};
 
 //Edit an existing task.
 
@@ -136,24 +117,18 @@ var ajaxRequest = function () {
 
 
 //Set the click handler to the addTask function.
+// $.addOnClick(addButton, addTask);
 addButton.addEventListener("click", addTask);
 addButton.addEventListener("click", ajaxRequest);
 
 
 var bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
     console.log("bind list item events");
-//select ListItems children
-    var checkBox = taskListItem.querySelector("input[type=checkbox]");
-    var editButton = taskListItem.querySelector("button.edit");
-    var deleteButton = taskListItem.querySelector("button.delete");
 
-
-    //Bind editTask to edit button.
-    editButton.onclick = editTask;
-    //Bind deleteTask to delete button.
-    deleteButton.onclick = deleteTask;
-    //Bind taskCompleted to checkBoxEventHandler.
-    checkBox.onchange = checkBoxEventHandler;
+    //select ListItems children and event bind
+    $.addOnClick($.selChild(taskListItem, "input[type=checkbox]"), editTask);
+    $.addOnClick($.selChild(taskListItem, "button.edit"), deleteTask);
+    $.addOnClick($.selChild(taskListItem, "button.delete"), checkBoxEventHandler);
 }
 
 //cycle over incompleteTaskHolder ul list items
