@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <title>VanillaJS • TodoMVC</title>
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/index.css">
+  </head>
+
+  <body>
+    <section class="todoapp">
+      <header class="header">
+        <h1>todos</h1>
+        <input class="new-todo" placeholder="What needs to be done?" autofocus>
+      </header>
+      <section class="main">
+        <input class="toggle-all" type="checkbox">
+        <label for="toggle-all">Mark all as complete</label>
+        <ul class="todo-list"></ul>
+      </section>
+      <footer class="footer">
+        <span class="todo-count"></span>
+        <ul class="filters">
+          <li>
+            <a href="#/" class="selected">All</a>
+          </li>
+          <li>
+            <a href="#/active">Active</a>
+          </li>
+          <li>
+            <a href="#/completed">Completed</a>
+          </li>
+        </ul>
+        <button class="clear-completed">Clear completed</button>
+      </footer>
+    </section>
+    <footer class="info">
+      <p>Double-click to edit a todo</p>
+      <p>Part of
+        <a href="http://todomvc.com">TodoMVC</a>
+      </p>
+    </footer>
+    <script type="module" src="src/app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-database.js"></script>
+
+    <script>
+      var config = {
+        apiKey: "",
+        authDomain: "mock-data-12c45.firebaseapp.com",
+        databaseURL: "https://mock-data-12c45.firebaseio.com",
+        projectId: "mock-data-12c45",
+        storageBucket: "mock-data-12c45.appspot.com",
+        messagingSenderId: "564558111471"
+      };
+      firebase.initializeApp(config);
+    </script>
+  </body>
+
+</html>
