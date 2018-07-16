@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "prepublish": "npm run compile",
-    "compile": "webpack src/app.js dist/main.js"
+    "compile": "webpack"
   },
   "dependencies": {
     "ramda": "^0.25.0",
@@ -10,6 +10,10 @@
     "todomvc-common": "^1.0.2"
   },
   "devDependencies": {
-    "google-closure-compiler": "^20160315.2.0"
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "google-closure-compiler": "^20160315.2.0",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.0.8"
   }
 }
