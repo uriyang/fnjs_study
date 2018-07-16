@@ -23,10 +23,9 @@
             c => $._appendChild(p, c);
         } else if (arguments.length == 2) {
             if (_isArray(cn)) {
-                _reduce(cn, function (p, child) {
+                _each(cn, function (child) {
                     p.appendChild(child);
-                    return p;
-                }, p);
+                });
             } else {
                 p.appendChild(cn);
             }
