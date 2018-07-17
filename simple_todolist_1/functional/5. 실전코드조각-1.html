@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>5. 실전코드조각-1</title>
+
+    <script src="./js/partial.js"></script>
+    <script src="./js/functional.js"></script>
+
+</head>
+<body>
+
+<script>
+    var users3 = [
+        { id: 101, name: 'ID' },
+        { id: 102, name: 'BJ' },
+        { id: 103, name: 'PJ' },
+        { id: 104, name: 'HA' },
+        { id: 105, name: 'JE' },
+        { id: 106, name: 'JI' },
+    ];
+
+    var posts = [
+        { id: 201, body: '내용1', user_id: 101 },
+        { id: 202, body: '내용2', user_id: 102 },
+        { id: 203, body: '내용3', user_id: 103 },
+        { id: 204, body: '내용4', user_id: 104 },
+        { id: 205, body: '내용5', user_id: 101 },
+    ];
+
+    var comments = [
+        { id: 301, body: '댓글1', user_id: 105, post_id: 201 },
+        { id: 302, body: '댓글2', user_id: 104, post_id: 201 },
+        { id: 303, body: '댓글3', user_id: 104, post_id: 202 },
+        { id: 304, body: '댓글4', user_id: 105, post_id: 203 },
+        { id: 305, body: '댓글5', user_id: 106, post_id: 204 },
+        { id: 306, body: '댓글6', user_id: 106, post_id: 204 },
+        { id: 307, body: '댓글7', user_id: 102, post_id: 205 },
+        { id: 308, body: '댓글8', user_id: 103, post_id: 204 },
+        { id: 309, body: '댓글9', user_id: 103, post_id: 202 },
+        { id: 310, body: '댓글10', user_id: 105, post_id: 201 },
+    ];
+
+/** 1. 특정인의 posts의 모든 comments 거르기 **/
+/*
+user.id === 101 로 걸러지는 값
+ - { id: 201, body: '내용1', user_id: 101 },
+   { id: 205, body: '내용5', user_id: 101 }
+
+201, 205 가 id 인 post 가 뽑히고
+comments 에서 post 의 id 가 201, 205 인 comment 만 찾아낸다.
+
+_.go(
+    _.filter(posts, function (post) { return post.user_id == 101; }), // 특정인의 posts 찾음
+    function (posts) { // 이후, 찾아낸 특정인의 posts 를 순회하면서
+        return _.filter(comments, function(comment) { //  comments 중에
+            return _.find(posts, function (post) { // 찾아낸 특정인의 post 에 삽입되어있는 comment 를 찾음
+                return post.id === comment.post_id;
+            });
+        });
+    },
+    console.log
+);
+*/
+
+/*
+// -> 좀 더 개선해보자면
+// ex. contains)
+// _.contain([1, 2, 5, 10], 5); // true
+//           [1, 2, 5, 10], 3); // false
+_.go(
+    // 특정인의 posts 찾음
+    // _.filter or _.where 사용
+    _.filter(posts, function (post) { return post.user_id == 101; }),
+    // _.where(posts, { user_id: 101 }),
+
+    // post 의 id만 따로 mapping 함
+    // _.map or _.pluck 사용
+    _.map(function (post) { return post.id; }),
+    // _.pluck('id'),
+
+    function (post_ids) { // 이후, post_id 배열을 순회하면서
+        return _.filter(comments, function(comment) {
+            return _.contains(post_ids, comment.post_id); // post_id 배열 중에 해당 post_id 의 comment 가 있는 지 확인
+        });
+    },
+    console.log
+);
+*/
+
+/** 2. 특정인의 posts에 comments를 단 친구의 이름들 뽑기 **/
+
+/*
+
+// ex. uniq)
+// _.uniq(['JE', 'HA', 'BJ', 'JE']); // ['JE', 'HA', 'BJ]
+_.go(
+    _.where(posts, { user_id: 101 }),
+    _.pluck('id'),
+    function (post_ids) {
+        return _.filter(comments, function(comment) {
+            return _.contains(post_ids, comment.post_id);
+        });
+    },
+    _.map(function (comment) {
+        return _.find(users3, function (user) {
+            return user.id == comment.user_id;
+        }).name;
+    }),
+    _.uniq,
+    console.log
+);
+
+*/
+
+/** 1, 2번 중복코드 제거 **/
+
+function posts_by(attr) {
+    return _.where(posts, attr);
+}
+
+// post 를 기반으로 comment 를 꺼낸다.
+var comments_by_posts = _.pipe(
+    _.pluck('id'),
+    function (post_ids) {
+        return _.filter(comments, function(comment) {
+            return _.contains(post_ids, comment.post_id);
+        });
+    }
+);
+
+/** 최종적으로 1번의 답이 되는 코드 **/
+var f1 = _.pipe( posts_by, comments_by_posts );
+// console.log(f1({ user_id: 101 }));
+
+/** 최종적으로 2번의 답이 되는 코드 **/
+var comments_to_user_names = _.map(function (comment) {
+    return _.find(users3, function (user) {
+        return user.id == comment.user_id;
+    }).name;
+});
+
+var f2 = _.pipe(
+    f1,
+    comments_to_user_names,
+    _.uniq
+);
+// console.log(f2({ user_id: 101 }));
+
+/*
+_.go({ user_id: 101 },
+    posts_by,
+    comments_by_posts,
+    _.map(function (comment) {
+        return _.find(users3, function (user) {
+            return user.id == comment.user_id;
+        }).name;
+    }),
+    _.uniq,
+    console.log
+);
+
+*/
+
+/** 3. 특정인의 posts에 comments를 단 친구들 카운트 정보 **/
+/*
+_.go({ user_id: 101 },
+    posts_by,
+    comments_by_posts,
+    _.map(function (comment) {
+        return _.find(users3, function (user) {
+            return user.id == comment.user_id;
+        }).name;
+    }),
+    _.count_by,
+    console.log
+);
+*/
+
+/** 최종적으로 3번의 답이 되는 코드 **/
+var f3 = _.pipe(
+    f1,
+    comments_to_user_names,
+    _.count_by,
+);
+// console.log(f3({ user_id: 101 }));
+
+
+/** 4. 특정인이 comment를 단 posts 거르기(찾아내기) **/
+_.go(
+    _.where(comments, { user_id: 105 }),
+    _.pluck('post_id'),
+    _.uniq,
+    function(post_ids) {
+        return _.filter(posts, function (post) {
+            return _.contains(post_ids, post.id);
+        });
+    },
+    console.log
+);
+
+</script>
+
+</body>
+</html>
