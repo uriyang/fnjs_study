@@ -1,0 +1,11 @@
+# Node.js Module folder
+node_modules/
+
+# OSX Files
+.DS_Store/
+.DS_Store
+
+# Webstorm settings
+.idea/
+
+configs/
