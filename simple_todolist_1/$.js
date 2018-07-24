@@ -14,9 +14,11 @@
         return document.createElement(tag);
     };
 
-    $.attr = (tag, attr, v) => {
+    $.setAttr = (tag, attr, v) => {
         tag[attr] = v
     };
+
+    $.getAttr = (tag, attr) => tag[attr];
 
     $._appendChild = function (p, cn) {
         if (arguments.length == 1) {
@@ -34,7 +36,7 @@
 
     $.append = _curry2($._appendChild);
 
-    $.addOnClick = (e, f) => e.onClick = f;
-    $.addOnChange = (e, f) => e.onChange = f;
+    $.addOnClick = (e, f) => e.onclick = f;
+    $.addOnChange = (e, f) => e.onchange = f;
     window.$ = $;
 }();

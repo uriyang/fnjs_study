@@ -21,15 +21,15 @@ var createNewTaskElement = function (taskString) {
     const input1 = $.createElement('input');
     const input2 = $.createElement('input');
 
-    $.attr(label, 'innerText', taskString);
-    $.attr(input1, 'type', 'checkbox');
-    $.attr(input2, 'type', 'text');
+    $.setAttr(label, 'innerText', taskString);
+    $.setAttr(input1, 'type', 'checkbox');
+    $.setAttr(input2, 'type', 'text');
 
-    $.attr(btn1, 'classList', 'edit');
-    $.attr(btn1, 'innerText', 'Edit');
+    $.setAttr(btn1, 'classList', 'edit');
+    $.setAttr(btn1, 'innerText', 'Edit');
 
-    $.attr(btn2, 'classList', 'delete');
-    $.attr(btn2, 'innerText', 'Delete');
+    $.setAttr(btn2, 'classList', 'delete');
+    $.setAttr(btn2, 'innerText', 'Delete');
     $.append(li, [input1, label, input2, btn1, btn2]);
     return li;
 }
@@ -43,8 +43,7 @@ var addTask = function () {
     // 완료하지 않은 항목에 추가
     $.append(incompleteTaskHolder, listItem);
     bindTaskEvents(listItem, taskCompleted);
-
-    taskInput.value = "";
+    taskInput.value = ""
 };
 
 //Edit an existing task.
@@ -53,24 +52,18 @@ var editTask = function () {
     console.log("Edit Task...");
     console.log("Change 'edit' to 'save'");
 
-
     var listItem = this.parentNode;
-
-    var editInput = listItem.querySelector('input[type=text]');
-    var label = listItem.querySelector("label");
-    var containsClass = listItem.classList.contains("editMode");
-    //If class of the parent is .editmode
+    var editInput = $.selChild(listItem, 'input[type=text]');
+    var label = $.selChild(listItem, 'label');
+    var containsClass = $.getAttr(listItem, 'classList').contains("editMode");
+    // 이미 editMode 일때
     if (containsClass) {
-
-        //switch to .editmode
-        //label becomes the inputs value.
-        label.innerText = editInput.value;
+        $.setAttr(label, 'innerText', $.getAttr(editInput, 'value'));
     } else {
-        editInput.value = label.innerText;
+        $.setAttr(editInput, 'value', $.getAttr(label, 'innerText'));
     }
-
     //toggle .editmode on the parent.
-    listItem.classList.toggle("editMode");
+    $.getAttr(listItem, 'classList').toggle("editMode");
 }
 
 
@@ -126,15 +119,15 @@ var bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
     console.log("bind list item events");
 
     //select ListItems children and event bind
-    $.addOnClick($.selChild(taskListItem, "input[type=checkbox]"), editTask);
-    $.addOnClick($.selChild(taskListItem, "button.edit"), deleteTask);
-    $.addOnClick($.selChild(taskListItem, "button.delete"), checkBoxEventHandler);
+    // console.log($.selChild(taskListItem, "input[type=checkbox]"));
+    $.addOnClick($.selChild(taskListItem, "input[type=checkbox]"), checkBoxEventHandler);
+    $.addOnClick($.selChild(taskListItem, "button.edit"), editTask);
+    $.addOnClick($.selChild(taskListItem, "button.delete"), deleteTask);
 }
 
 //cycle over incompleteTaskHolder ul list items
 //for each list item
 for (var i = 0; i < incompleteTaskHolder.children.length; i++) {
-
     //bind events to list items chldren(tasksCompleted)
     bindTaskEvents(incompleteTaskHolder.children[i], taskCompleted);
 }
