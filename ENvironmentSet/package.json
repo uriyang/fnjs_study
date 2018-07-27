@@ -1,17 +1,20 @@
 {
   "private": true,
   "scripts": {
-    "prepublish": "npm run compile",
+    "prepublish": "npm run compile && firefox index.html",
     "compile": "webpack"
   },
   "dependencies": {
     "genf": "^1.0.1",
-    "rxjs": "^6.2.2",
     "todomvc-app-css": "^2.0.1",
     "todomvc-common": "^1.0.2"
   },
   "devDependencies": {
-    "google-closure-compiler": "^20160315.2.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
     "webpack": "^4.16.1",
     "webpack-cli": "^3.0.8"
   }

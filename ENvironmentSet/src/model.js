@@ -1,46 +1,62 @@
-import { p } from "genf";
-import enumGen from './lib/enum';
-import inf from './lib/inf';
-import fetch from './lib/fetch';
-import env from './lib/env';
-import set from './lib/set';
-
-const TodoItemStorage = new Map();
-const TODO_STATUS = enumGen('WORKING', 'FINISHED');
-const TODO_ID = inf();
-
 class TodoItem {
-  constructor(id, desc) {
-    this.id = id;
-    this.desc = desc;
-    this.status = TODO_STATUS.WORKING;
+  id = NaN;
+  description = '';
+  static WORKING = Symbol('Working');
+  static DONE = Symbol('Done');
+
+  constructor(id, description) {
+    this.id = id == null ? this.id : id;
+    this.description = description || this.description;
+    this.status = TodoItem.WORKING;
+  }
+
+  isDone() {
+    return this.status === TodoItem.DONE;
+  }
+
+  done() {
+    return this.status = TodoItem.DONE;
+  }
+
+  start() {
+    return this.status = TodoItem.WORKING;
   }
 }
 
-export function createTodo(desc) {
-  const id = fetch(TODO_ID);
-  const todo = new TodoItem(id, desc);
-  TodoItemStorage.set(id, todo);
-  return todo;
+export default class Model {
+  storage = new Map();
+  id = 0;
+
+  get uid() {
+    return this.id++;
+  }
+
+  addTodo(desc) {
+    const id = this.uid;
+    const storage = this.storage;
+    const item = new TodoItem(id, desc);
+    storage.set(id, item);
+    return item;
+  }
+
+  getTodo(id) {
+    const storage = this.storage;
+    return storage.get(id);
+  }
+
+  removeTodo(id) {
+    const storage = this.storage;
+    storage.delete(id);
+    return id;
+  }
+
+  finishTodo(id) {
+    const target = this.getTodo(id);
+    return target == null ? target : target.done();
+  }
+
+  beginTodo(id) {
+    const target = this.getTodo(id);
+    return target == null ? target : target.start();
+  }
 }
-//TODO: Be functional!
-
-export const find = id => TodoItemStorage.get(id);
-
-export const remove = id => TodoItemStorage.delete(id);
-
-export const end = p.pipe(
-  find,
-  p.If(p.isRefable,
-    p.partial(p.tap, p.partial(set, p._, 'status', p.prop('FINISHED', TODO_STATUS))),
-    p.identity
-    )
-);
-
-export const run = p.pipe(
-  find,
-  p.If(p.isRefable,
-    p.partial(p.tap, p.partial(set, p._, 'status', p.prop('WORKING', TODO_STATUS))),
-    p.identity
-  )
-);

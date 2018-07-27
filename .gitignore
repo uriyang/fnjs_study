@@ -52,5 +52,5 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
-
-node_modules
+ENvironmentSet/node_modules
+ENvironmentSet/dist
