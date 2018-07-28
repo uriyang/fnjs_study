@@ -1,5 +1,5 @@
 import View from './view';
-import Model from './model';
+import Model, * as M from './model';
 
 export default class Controller {
   model = new Model;
@@ -31,17 +31,22 @@ export default class Controller {
     const desc = element.value;
     const model = this.model;
     const view = this.view;
-    model.addTodo(desc);
+    M.addTodo(desc, model);
+    element.value = '';
     view.draw(model.storage, this.onClickEvent.bind(this));
   }
 
   finishTodo(id) {
     const model = this.model;
-    model.finishTodo(id);
+    const view = this.view;
+    M.finishTodo(id, model);
+    view.draw(model.storage, this.onClickEvent.bind(this));
   }
 
   startTodo(id) {
     const model = this.model;
-    model.beginTodo(id);
+    const view = this.view;
+    M.beginTodo(id, model);
+    view.draw(model.storage, this.onClickEvent.bind(this));
   }
 }

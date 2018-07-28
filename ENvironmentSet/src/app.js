@@ -8,5 +8,4 @@ window.addEventListener('DOMContentLoaded', () => {
   const controller = new Controller(view);
 
   inputBox.addEventListener('keypress', controller.onKeyEvent.bind(controller));
-  window.storage = controller.model.storage;
 });

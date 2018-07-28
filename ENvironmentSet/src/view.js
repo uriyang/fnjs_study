@@ -1,3 +1,5 @@
+import * as M from './model';
+
 export default class View {
   base = document.createElement('div');
 
@@ -23,13 +25,14 @@ export default class View {
     const toggle = document.createElement('input');
     toggle.setAttribute('class', 'toggle');
     toggle.setAttribute('type', 'checkbox');
-    toggle.setAttribute('checkbox', todoitem.isDone());
+    if(M.isDone(todoitem))
+      toggle.setAttribute('checked', M.isDone(todoitem));
     toggle.addEventListener('click', toggleCallback.bind(null, id));
     li.appendChild(toggle);
     const body = document.createElement('label');
     const bodyContent = document.createTextNode(description);
-    if(todoitem.isDone())
-      body.setAttribute('style', 'text-decoration:overline');
+    if(M.isDone(todoitem))
+      body.setAttribute('style', 'text-decoration:line-through');
     body.appendChild(bodyContent);
     li.appendChild(body);
     return li;

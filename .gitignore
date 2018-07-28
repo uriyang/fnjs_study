@@ -52,5 +52,9 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
-ENvironmentSet/node_modules
-ENvironmentSet/dist
+ENvironmentSet/node_modules/
+ENvironmentSet/dist/
+.idea/TodoApp.iml 제거할 예정
+.idea/inspectionProfiles/ 제거할 예정
+.idea/modules.xml 제거할 예정
+.idea/typescript-compiler.xml 제거할 예정
