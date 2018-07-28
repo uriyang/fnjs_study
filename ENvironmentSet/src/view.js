@@ -1,4 +1,5 @@
 import * as M from './model';
+import { p } from 'genf';
 
 export default class View {
   base = document.createElement('div');
@@ -27,7 +28,7 @@ export default class View {
     toggle.setAttribute('type', 'checkbox');
     if(M.isDone(todoitem))
       toggle.setAttribute('checked', M.isDone(todoitem));
-    toggle.addEventListener('click', toggleCallback.bind(null, id));
+    toggle.addEventListener('click', p.partial(toggleCallback, id));
     li.appendChild(toggle);
     const body = document.createElement('label');
     const bodyContent = document.createTextNode(description);

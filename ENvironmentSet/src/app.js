@@ -1,5 +1,6 @@
 import View from './view';
-import Controller from './controller';
+import Controller, { onKeyEvent } from './controller';
+import { p } from 'genf';
 
 window.addEventListener('DOMContentLoaded', () => {
   const inputBox = document.querySelector('.new-todo');
@@ -7,5 +8,5 @@ window.addEventListener('DOMContentLoaded', () => {
   const view = new View(base);
   const controller = new Controller(view);
 
-  inputBox.addEventListener('keypress', controller.onKeyEvent.bind(controller));
+  inputBox.addEventListener('keypress', p.partial(onKeyEvent, controller));
 });

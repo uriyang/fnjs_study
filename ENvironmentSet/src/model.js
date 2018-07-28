@@ -45,7 +45,7 @@ export const addTodo = (desc, model) => flow(
   p.prop('uid', model)
 );
 
-export const getTodo =(id, model) => flow(
+export const getTodo = (id, model) => flow(
   storage => flow(
     getter => getter(id) || Reflect.construct(TodoItem),
     p.tie(storage, Map.prototype.get)),
