@@ -34,51 +34,37 @@ export default class Model {
   }
 }
 
-export const addTodo = p.pipe(
-  p.wrap,
-  ([desc, model]) => flow(
-    id => flow(
-      storage => flow(
-        item => flow(
-          register => register(id, item),
-          p.tie(storage, Map.prototype.set)),
-        Reflect.construct(TodoItem, p.wrap(id, desc))),
-      p.prop('storage', model)),
-    p.prop('uid', model)
-  )
-);
-
-export const getTodo = p.pipe(
-  p.wrap,
-  ([id, model]) => flow(
+export const addTodo = (desc, model) => flow(
+  id => flow(
     storage => flow(
-      getter => getter(id) || Reflect.construct(TodoItem),
-      p.tie(storage, Map.prototype.get)),
-    p.prop('storage', model)
-  )
+      item => flow(
+        register => register(id, item),
+        p.tie(storage, Map.prototype.set)),
+      Reflect.construct(TodoItem, p.wrap(id, desc))),
+    p.prop('storage', model)),
+  p.prop('uid', model)
 );
 
-export const removeTodo = p.pipe(
-  p.wrap,
-  ([id, model]) => flow(
-    storage => flow(
-      remover => remover(id),
-      p.tie(storage, Map.prototype.delete)),
-    p.prop('storage', model)
-  )
+export const getTodo =(id, model) => flow(
+  storage => flow(
+    getter => getter(id) || Reflect.construct(TodoItem),
+    p.tie(storage, Map.prototype.get)),
+  p.prop('storage', model)
 );
 
-export const finishTodo = p.pipe(
-  p.wrap,
-  ([id, model]) => flow(
-    done,
-    getTodo(id, model)
-  )
+export const removeTodo = (id, model) => flow(
+  storage => flow(
+    remover => remover(id),
+    p.tie(storage, Map.prototype.delete)),
+  p.prop('storage', model)
 );
 
-export const beginTodo = p.pipe(
-  p.wrap,
-  ([id, model]) => flow(
-    start,
-    getTodo(id, model))
+export const finishTodo = (id, model) => flow(
+  done,
+  getTodo(id, model)
+);
+
+export const beginTodo = (id, model) => flow(
+  start,
+  getTodo(id, model)
 );
