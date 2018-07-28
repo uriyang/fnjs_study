@@ -5,6 +5,7 @@ export default p.If(
     p.wrap,
     p.cdr,
     p.cdr,
+    p.car,
     p.isRefable
   ),
   (name, value, target) => target[name] = value,
