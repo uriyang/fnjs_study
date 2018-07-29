@@ -1,7 +1,9 @@
 function log(v) {
   console.log.apply(console, arguments);  // apply 아래에..
-  return v;
-}
+  return v; // undefined를 찍지 않는다. PIPE 흐름에 자연스럽게~
+} // this는 console
+// call, bind, apply
+// https://www.zerocho.com/category/JavaScript/post/57433645a48729787807c3fd
 
 function _is_object(obj) {
   return typeof obj == 'object' && !!obj;
@@ -72,6 +74,8 @@ function _pipe() {
     }, arg);
   }
 }
+// 클로저...
+// https://www.zerocho.com/category/JavaScript/post/5741d96d094da4986bc950a0
 
 // ES6에서는 객체 자체를 iterator로 생성하는 방식으로 처리
 log('1__', [1, 2, 3], document.querySelectorAll("body"), { 1: 'aa', 2: 'bb', 3: 'cc' })
@@ -88,6 +92,7 @@ object
 symbol  * ADD
 */
 
+// ES6의 String, Array, Map, Set 등은 Symbol.iterator 프로퍼티를 가진 객체
 // es5 자료형
 // Boolean
 // Number
@@ -162,3 +167,9 @@ f2(obj);
 // console.log(map([1,2,3], (a) => (a+1)))
 
 // const, let, promise(async await)....
+
+
+function *gen(len) {
+  var i = -1;
+  while (++1 < len) yield i * 10;
+}

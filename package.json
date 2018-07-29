@@ -1,0 +1,23 @@
+{
+  "name": "fnjs_study",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uriyang/fnjs_study.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uriyang/fnjs_study/issues"
+  },
+  "homepage": "https://github.com/uriyang/fnjs_study#readme",
+  "dependencies": {
+    "partial-js": "^1.1.5"
+  }
+}

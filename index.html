@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <script src="test2.js"></script>
+</head>
+
+<body>
+  <script>
+    const add = (a, b) => a + b;
+    const sub5 = a => a - 5;
+    const mult2 = a => a * 2;
+
+    const f1 = (..._) => go(add(..._), sub5, mult2);
+
+    log(f1(10, 10));
+
+    // const f2 = pipe(function (a, b) {
+    //   log(a, b);
+    // })
+
+    const f2 = pipe(add, sub5, mult2);
+    log(f2(10, 10));
+
+    // # 비동기 에러는 try catch만으로는 잡을 수 없다.
+
+    // function test() {
+    //   try {
+    //     setTimeout(function () {
+    //       try {
+    //         JSON.parse('{')
+    //       } catch (e) {
+    //         log(e, '안쪽 핸들링함');
+    //       }
+    //     }, 10);
+    //   } catch (e) {
+    //     log(e, '핸들링함343434');
+    //   } finally {
+    //     log('finally');
+    //   }
+    // }
+
+    // log(test(), 'log~');
+
+    function test() {
+      return new Promise((resolve, reject) => {
+        setTimeout(function () {
+          try {
+            resolve(JSON.parse('{'));
+          } catch (e) {
+            reject(e);
+          }
+        }, 10)
+      });
+    }
+
+    // test()
+    //   .then(function (obj) {
+    //     log('정상 동작함', obj)
+    //   }, function (e) {
+    //     log('에러남', e);
+    //   });
+
+    async function a() {
+      try {
+        log(await test());
+        // log(await Promise.reject('~~~~'));
+      } catch (e) {
+        log(e, '핸들링함~~');
+      }
+    }
+
+    a();
+
+    // async function getTimes(list) {
+    //   return await list.map(async function (v) {
+    //     return await new Promise(function (resolve) {
+    //       setTimeout(function () {
+    //         resolve([v, new Date()]);
+    //       }, v * 1000);
+    //     });
+    //   });
+    // }
+
+    async function getTimes(list) {
+      return await map(async function (v) {
+        return await new Promise(function (resolve) {
+          setTimeout(function () {
+            resolve([v, new Date()]);
+          }, v * 1000);
+        });
+      }, list);
+    }
+
+    (async function () {
+      go(await getTimes([1, 2, 3]), log);
+    })()
+  </script>
+</body>
+
+</html>

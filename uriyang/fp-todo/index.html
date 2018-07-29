@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Todo App</title>
-    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8">
-  </head>
-  <body>
-    <div class="container">
-      <p>
-        <label for="new-task">Add Item</label>
-        <input id="new-task" type="text">
-        <button>Add</button>
-      </p>
 
+<head>
+  <title>Todo App</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8">
+  <script src="js/$.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <p>
+      <label for="new-task">Add Item</label>
+      <input id="new-task" type="text">
+      <button class="create">Add</button>
+    </p>
+  </div>
+
+  <script>
+    const tasks_template = _ => `
       <h3>Todo</h3>
-      <ul id="incomplete-tasks">
-        <li>
-          <input type="checkbox">
-          <label>Pay Bills</label>
-          <input type="text">
-          <button class="edit">Edit</button>
-          <button class="delete">Delete</button>
-        </li>
-        <li class="editMode">
-          <input type="checkbox">
-          <label>Go Shopping</label>
-          <input type="text" value="Go Shopping">
-          <button class="edit">Edit</button>
-          <button class="delete">Delete</button>
-        </li>
-      </ul>
+        <ul id="incomplete-tasks">
+          <li>
+            <input type="checkbox">
+            <label>Pay Bills</label>
+            <input type="text">
+            <button class="edit">Edit</button>
+            <button class="delete">Delete</button>
+          </li>
+          <li class="editMode">
+            <input type="checkbox">
+            <label>Go Shopping</label>
+            <input type="text" value="Go Shopping">
+            <button class="edit">Edit</button>
+            <button class="delete">Delete</button>
+          </li>
+        </ul>
+    `;
 
+    const complete_template = _ => `
       <h3>Completed</h3>
       <ul id="completed-tasks">
         <li>
@@ -41,8 +49,16 @@
           <button class="delete">Delete</button>
         </li>
       </ul>
-    </div>
-  </body>
-  <script src="js/function.js"></script>
-  <script src="js/app.js"></script>
+    `;
+    console.log($)
+    $('.create').onClick = () => {
+      const element = $.el(tasks_template);
+      $.append($('body'), element);
+    }
+  </script>
+</body>
+<!-- <script src="js/function.js"></script> -->
+<!-- <script src="js/$.js"></script> -->
+<script src="js/app.js"></script>
+
 </html>
