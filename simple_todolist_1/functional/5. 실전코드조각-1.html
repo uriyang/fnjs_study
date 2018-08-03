@@ -187,6 +187,7 @@ var f3 = _.pipe(
 
 
 /** 4. 특정인이 comment를 단 posts 거르기(찾아내기) **/
+/*
 _.go(
     _.where(comments, { user_id: 105 }),
     _.pluck('post_id'),
@@ -198,7 +199,134 @@ _.go(
     },
     console.log
 );
+*/
 
+
+/** 섹션5. 실전코드조각2 효율 높이기 **/
+
+/** 5. users + posts + comments (index_by 와 group_by로 효율높이기) **/
+
+/** 1) user 들이 추가 된 comments 를 만듬. 단, 원본 데이터의 변형은 하지 않음 **/
+// index_by를 사용하지 않으면 매번 for loop 을 수행하게 되므로 효율이 떨어짐
+// 고로 미리 for loop 를 수행하여 id 를 기준으로 key 값을 생성하도록 함
+var indexed_user_id = _.index_by(users3, 'id');
+var comments2 = _.go(
+    comments,
+    _.map(function (comment) {
+        // extends 를 사용하여 comments2 내부 데이터와 comment(원본)이 다르게끔
+        return _.extend({
+            // user: _.find(users3, function (user) {
+            //     return comment.user_id == user.id;
+            // })
+            user: indexed_user_id[comment.user_id]
+        }, comment);
+    }),
+    _.group_by('post_id'),
+);
+console.log(comments2);
+
+
+/** 2) comment 들이 추가 된 posts 를 만듬. 단, 원본 데이터의 변형은 하지 않음 **/
+// 위와 마찬가지로 효율성을 높이며, index_by 가 아닌 group_by 사용(post_id 가 key가 됨)
+var posts2 = _go(
+    posts,
+    _.map(function (post) {
+        return _.extend({
+            comments: comments2[post.id] || [],
+            user: indexed_user_id[post.user_id]
+        }, post);
+    }),
+);
+
+var posts3 = _.group_by(posts2, 'user_id');
+console.log(posts3);
+
+/** 3) comment 들이 추가 된 posts 를 만듬. 단, 원본 데이터의 변형은 하지 않음 **/
+// 여기서 indexed_user_id 는 Object 지만 map, each 함수는 Object도 순회할 수 있으므로 가능함
+
+/*
+var users4 = _.map(indexed_user_id, function (user) {
+    // user.posts = _.filter(posts3, function (post) {
+    //     return post.user_id == user.id;
+    // })
+
+    // 위에 처럼 user.posts 를 직접 변경하게 되면 각 value 간에 참조가
+    // 순회되어 JSON.stringify 를 할 수 없다. 때문에 extends 를 사용함
+    return _.extend({
+        posts:  _.filter(posts3, function (post) {
+            return post.user_id == user.id;
+        })
+    }, user);
+});
+*/
+
+var users4 = _.go(
+    indexed_user_id,
+    _.map(function (user) {
+        return _.extend({
+            posts: posts3[user.id] || []
+        }, user);
+    })
+);
+console.log(users4);
+
+/** 5.1 특정인의 posts 의 모든 comments 거르기(1번과 동일하지만 다른 로직) **/
+var user = users4[0];
+_.go(
+    user.posts,
+    _.pluck('comments'),
+    _.flatten,
+    console.log
+);
+
+// 위의 pluck, flatten 을 한번에 하는 게 deep_pluck
+// TODO 위에 pluck, flatten 쓴것과 deep_pluck 쓴것 결과가 다르다.. 해결해보자
+console.log(_.deep_pluck(user, 'posts.comments'));
+
+
+
+/** 5.2 특정인의 posts에 comments를 단 친구의 이름들 뽑기(2번과 동일하지만 다른 로직) **/
+_.go(
+    user.posts,
+    _.pluck('comments'),
+    _.flatten,
+
+    _.pluck('user'),
+    _.pluck('name'),
+    _.uniq,
+
+    console.log
+);
+
+console.log(_.uniq(_.deep_pluck(user, 'posts.comments.user.name')));
+
+_.go(user, _.deep_pluck('posts.comments.user.name'), _.uniq, console.log);
+
+/** 5.3 특정인의 posts에 comments를 단 친구들 카운트 정보(3번과 동일하지만 다른 로직) **/
+_.go(
+    user.posts,
+    _.pluck('comments'),
+    _.flatten,
+
+    _.pluck('user'),
+    _.pluck('name'),
+    _.count_by,
+
+    console.log
+);
+
+_.go(user, _.deep_pluck('posts.comments.user.name'), _.count_by, console.log);
+
+/** 5.4 특정인이 comment를 단 posts 거르기(찾아내기)
+ * (4번과 동일하지만 다른 로직) **/
+// TODO 이것도 답이 좀 다르다(4번과 비교해서 틀린 곳 찾아내보자.. 아마 comments2 에 오류가 있는 것 같다)
+console.log(
+    _.filter(posts2, function (post) {
+        return _.find(post.comments, function (comment) {
+            return comment.user_id == 105;
+        })
+    })
+);
 </script>
 
 </body>
