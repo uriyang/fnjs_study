@@ -13,38 +13,47 @@ var addButton = document.getElementsByTagName("button")[0];//first button
 var incompleteTaskHolder = document.getElementById("incomplete-tasks");//ul of #incomplete-tasks
 var completedTasksHolder = document.getElementById("completed-tasks");//completed-tasks
 
-var createNewTaskElement = function (taskString) {
+var createNewTaskHTML = function (taskString) {
     const li = $.createElement('li');
-    const label = $.createElement('label');
-    const btn1 = $.createElement('button');
-    const btn2 = $.createElement('button');
-    const input1 = $.createElement('input');
-    const input2 = $.createElement('input');
-
-    $.attr(label, 'innerText', taskString);
-    $.attr(input1, 'type', 'checkbox');
-    $.attr(input2, 'type', 'text');
-
-    $.attr(btn1, 'classList', 'edit');
-    $.attr(btn1, 'innerText', 'Edit');
-
-    $.attr(btn2, 'classList', 'delete');
-    $.attr(btn2, 'innerText', 'Delete');
+    const label = _go(
+        $.createElement('label'),
+        $.attr({'innerText': taskString}),
+    );
+    const btn1 = _go(
+        $.createElement('button'),
+        $.attr({
+            'classList': 'edit',
+            'innerText': 'Edit',
+        }),
+    );
+    const btn2 = _go(
+        $.createElement('button'),
+        $.attr({
+            'classList': 'delete',
+            'innerText': 'Delete',
+        })
+    );
+    const input1 = _go(
+        $.createElement('input'),
+        $.attr({'type': 'checkbox'}),
+    );
+    const input2 = _go(
+        $.createElement('input'),
+        $.attr({'type': 'text'}),
+    );
     $.append(li, [input1, label, input2, btn1, btn2]);
     return li;
-}
+};
 
 
 var addTask = function () {
     console.log("Add Task...");
-    // 새로운 TODO 생성
-    var listItem = createNewTaskElement(taskInput.value);
-
-    // 완료하지 않은 항목에 추가
-    $.append(incompleteTaskHolder, listItem);
-    bindTaskEvents(listItem, taskCompleted);
-
-    taskInput.value = "";
+    _go(
+        createNewTaskHTML(taskInput.value), // 새로운 TODO 생성
+        $.append(incompleteTaskHolder), // 완료하지 않은 항목에 추가
+        bindTaskEvents(taskCompleted), // Event Binding
+    );
+    $.attr(taskInput, {'value': ''});
 };
 
 //Edit an existing task.
@@ -53,11 +62,10 @@ var editTask = function () {
     console.log("Edit Task...");
     console.log("Change 'edit' to 'save'");
 
-
     var listItem = this.parentNode;
 
-    var editInput = listItem.querySelector('input[type=text]');
-    var label = listItem.querySelector("label");
+    var editInput = $.find('input[type=text]', listItem);
+    var label = $.find('label', listItem);
     var containsClass = listItem.classList.contains("editMode");
     //If class of the parent is .editmode
     if (containsClass) {
@@ -122,14 +130,14 @@ addButton.addEventListener("click", addTask);
 addButton.addEventListener("click", ajaxRequest);
 
 
-var bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
+var bindTaskEvents = _curryr2(function (taskListItem, checkBoxEventHandler) {
     console.log("bind list item events");
 
     //select ListItems children and event bind
-    $.addOnClick($.selChild(taskListItem, "input[type=checkbox]"), editTask);
-    $.addOnClick($.selChild(taskListItem, "button.edit"), deleteTask);
-    $.addOnClick($.selChild(taskListItem, "button.delete"), checkBoxEventHandler);
-}
+    $.addOnClick($.find("input[type=checkbox]", taskListItem), editTask);
+    $.addOnClick($.find("button.edit", taskListItem), deleteTask);
+    $.addOnClick($.find("button.delete", taskListItem), checkBoxEventHandler);
+});
 
 //cycle over incompleteTaskHolder ul list items
 //for each list item
