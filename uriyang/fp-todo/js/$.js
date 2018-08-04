@@ -4,10 +4,9 @@
   $.el = html => {
     const parent = document.createElement('div');
     parent.innerHTML = html;
-    console.log(parent)
-    return parent.children;
+    return parent;
   };
 
-  $.append = (parent, child) => parent.appendChild(child);
+  $.append = curry((parent, child) => parent.appendChild(child));
   window.$ = $;
 } ();

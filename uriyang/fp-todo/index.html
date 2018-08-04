@@ -5,6 +5,8 @@
   <title>Todo App</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8">
+
+  <script src="js/function.js"></script>
   <script src="js/$.js"></script>
 </head>
 
@@ -50,15 +52,18 @@
         </li>
       </ul>
     `;
-    console.log($)
-    $('.create').onClick = () => {
-      const element = $.el(tasks_template);
-      $.append($('body'), element);
+
+    const apdCon = $.append($('.container'));
+
+    $('.create').onclick = function () {
+      // $.append($('.container'), $.el(tasks_template()));
+      pipe( // pipe에 넣으려면 CURRY 사용이 필수
+        tasks_template,
+        $.el,
+        apdCon
+      )();
     }
   </script>
 </body>
-<!-- <script src="js/function.js"></script> -->
-<!-- <script src="js/$.js"></script> -->
-<script src="js/app.js"></script>
 
 </html>
