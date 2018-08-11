@@ -53,16 +53,41 @@
       </ul>
     `;
 
-    const apdCon = $.append($('.container'));
-
-    $('.create').onclick = function () {
+    // log($.el(tasks_template))
+    /* $('.create').onclick = function () {
       // $.append($('.container'), $.el(tasks_template()));
       pipe( // pipe에 넣으려면 CURRY 사용이 필수
-        tasks_template,
-        $.el,
-        apdCon
+        tasks_template,                        // tasks_template를
+        $.el,                                  // createElement해서
+        $.append($('.container')),             // .container에 append 한다.
+        function (editorEl) {
+          // $.find('input[type="checkbox"]')(editorEl).onclick = console.log
+          go(editorEl,                        // append한 객체(editorEl)
+            $.find('input[type="checkbox"]'),
+            btn => btn.onclick = log
+            // log
+          )
+          // editorEl.querySelectorAll('input[type="checkbox"]').onclick = console.log;
+        }
+        // $.find('input[type="checkbox"]'),
+        // chk => chk.onclick = log
       )();
-    }
+    }*/
+
+    $.on($('.create'), 'click', pipe(
+      tasks_template,
+      $.el,
+      $.append($('.container')),
+      function (editorEl) {
+        $.on(editorEl,
+          // $.find('input[type="checkbox"]'),
+          // btn => btn.onclick = log
+          'click',
+          log,
+          'input[type="checkbox"]'
+        )
+      }
+    ));
   </script>
 </body>
 
