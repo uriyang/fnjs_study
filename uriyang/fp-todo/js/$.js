@@ -23,8 +23,13 @@
   // https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array/length
   $.append = curry((parent, child) => parent.appendChild(child));
 
-  $.on = (delegateTarget, eventName, f = sel, sel) => {
-    delegateTarget.addEventListener(eventName, f);
+  $.addEvent = (target, eventName, f) => target.addEventListener(eventName, f);
+
+  $.on = (delegateTarget, eventName, sel, f) => {
+    delegateTarget.addEventListener(eventName, function(e) {
+      const currentTarget = find(el => el.contains(e.target), $.findAll(sel, delegateTarget));
+      if (currentTarget) f(currentTarget);
+    });
   };
 
   window.$ = $;

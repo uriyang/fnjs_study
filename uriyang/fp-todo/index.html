@@ -74,7 +74,7 @@
       )();
     }*/
 
-    $.on($('.create'), 'click', pipe(
+    $.addEvent($('.create'), 'click', pipe(
       tasks_template,
       $.el,
       $.append($('.container')),
@@ -83,8 +83,8 @@
           // $.find('input[type="checkbox"]'),
           // btn => btn.onclick = log
           'click',
-          log,
-          'input[type="checkbox"]'
+          'input[type="checkbox"]',
+          log
         )
       }
     ));
